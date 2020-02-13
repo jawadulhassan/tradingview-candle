@@ -1,13 +1,24 @@
 import { createChart } from "lightweight-charts";
+import React from 'react';
 
-function Graph() {
-  var chart = createChart(document.body, {
-    width: 600,
-    height: 300,
-    crosshair: {
-      mode: "normal"
+const  Graph = () => {
+  const chartRef = React.useRef(null);
+
+  React.useEffect(()=> {
+    if(chartRef.current){
+      const chart = createChart(chartRef.current, {
+        width: 600,
+        height: 300,
+        crosshair: {
+          mode: "normal"
+        }
+      });
+
+      prepareChart(chart);
     }
-  });
+  }, [])
+
+  function prepareChart(chart) {
 
   var candleSeries = chart.addCandlestickSeries();
 
@@ -260,7 +271,9 @@ function Graph() {
       }
     }
   }, 200);
-  return null;
+
+}
+  return <div ref={chartRef} />;
 }
 
 export default Graph;
